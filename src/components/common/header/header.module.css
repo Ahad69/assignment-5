@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+  background: white;
+  box-shadow: 0 10px 8px -10px rgb(19, 93, 252);
+}
+.nav {
+  width: 1280px;
+  margin: auto;
+}
