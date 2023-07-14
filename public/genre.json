@@ -1,0 +1,30 @@
+[
+  {
+    "value": "novel",
+    "label": "Novel"
+  },
+  {
+    "value": "fiction",
+    "label": "Fiction"
+  },
+  {
+    "value": "history",
+    "label": "History"
+  },
+  {
+    "value": "biography",
+    "label": "Biography"
+  },
+  {
+    "value": "poetry",
+    "label": "Poetry"
+  },
+  {
+    "value": "philosophy",
+    "label": "Philosophy"
+  },
+  {
+    "value": "fantasy",
+    "label": "Fantasy"
+  }
+]

@@ -10,7 +10,7 @@ const CustomPrevArrow = (props: CustomArrowProps) => {
   const { onClick } = props;
   return (
     <div className={style.prevsArrow} onClick={onClick}>
-      <IoIosArrowDropleftCircle className="text-red-600 text-3xl" />
+      <IoIosArrowDropleftCircle className="text-blue-500 text-3xl" />
     </div>
   );
 };
@@ -19,7 +19,7 @@ const CustomNextArrow = (props: CustomArrowProps) => {
   const { onClick } = props;
   return (
     <div className={style.nextsArrow} onClick={onClick}>
-      <IoIosArrowDroprightCircle className="text-red-600 text-3xl" />
+      <IoIosArrowDroprightCircle className="text-blue-500 text-3xl" />
     </div>
   );
 };

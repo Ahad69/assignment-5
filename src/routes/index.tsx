@@ -4,6 +4,10 @@ import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import App from "../App";
 import Book from "../pages/Book";
+import AddBook from "../pages/AddBook";
+import EditBook from "../pages/EditBook";
+import NotFound from "../pages/NotFound";
+import Books from "../pages/Books";
 
 const routes = createBrowserRouter([
   {
@@ -15,8 +19,20 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/book",
+        path: "/book/:id",
         element: <Book />,
+      },
+      {
+        path: "/add-new-book",
+        element: <AddBook />,
+      },
+      {
+        path: "/edit-book",
+        element: <EditBook />,
+      },
+      {
+        path: "/books",
+        element: <Books />,
       },
     ],
   },
@@ -28,10 +44,10 @@ const routes = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
-  //   {
-  //     path: "*",
-  //     element: <NotFound />,
-  //   },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default routes;
