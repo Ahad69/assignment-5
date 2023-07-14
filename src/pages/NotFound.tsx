@@ -1,7 +1,11 @@
 import React from "react";
 
 const NotFound = () => {
-  return <div>Not Found</div>;
+  return (
+    <div>
+      <img className="w-full h-screen" src="/notfound.jpg" />
+    </div>
+  );
 };
 
 export default NotFound;
