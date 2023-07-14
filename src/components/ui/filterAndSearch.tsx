@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Select, Input } from "antd";
 import genre from "../../../public/genre.json";
-import year from "../../../public/publicationYear.json";
 import { useAppDispatch } from "../../redux/hook";
 import { changeGenre, publicationYear } from "../../redux/features/filterSlice";
 const { Search } = Input;
+
+const currentYear = new Date().getFullYear();
+const years: any[] | undefined = [];
+
+for (let year = currentYear; year >= currentYear - 500; year--) {
+  years.push({ value: year.toString(), label: year.toString() });
+}
 
 const FilterAndSearch = () => {
   const dispatch = useAppDispatch();
@@ -17,9 +24,9 @@ const FilterAndSearch = () => {
     }
   };
 
-  const onChangeYear = (value: number) => {
+  const onChangeYear = (value: string) => {
     if (value == undefined) {
-      dispatch(publicationYear(2023));
+      dispatch(publicationYear(""));
     } else {
       dispatch(publicationYear(value));
     }
@@ -51,7 +58,7 @@ const FilterAndSearch = () => {
           filterOption={(input, option) =>
             (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
-          options={year}
+          options={years}
         />
       </div>
 

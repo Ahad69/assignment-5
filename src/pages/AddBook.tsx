@@ -1,50 +1,64 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import style from "../pages-css/add-books.module.css";
-import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload, Form, Input, Button } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import type { UploadFile } from "antd/es/upload/interface";
-
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import { Form, Input, Button, DatePicker, Select } from "antd";
+import { useAddBooksMutation } from "../redux/books/booksSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { isLoading } from "../redux/features/commonOptionsSlice";
+import Swal from "sweetalert2";
+import type { DatePickerProps } from "antd";
+import { useState } from "react";
+import genre from "../../public/genre.json";
+import { MyBook } from "../Interfaces/global";
 
 const AddBook = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleCancel = () => setPreviewOpen(false);
+  const [form] = Form.useForm();
+  const [addBooks] = useAddBooksMutation();
+  const [date, setData] = useState("");
+  const dispatch = useAppDispatch();
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
+  const { loading } = useAppSelector((state) => state.commonOptions);
 
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
+  const handleReset = () => {
+    console.log("ads");
+    form.resetFields();
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    setData(dateString);
+  };
 
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
+  const onFinish = async (value: MyBook) => {
+    dispatch(isLoading(true));
+    value.publicationDate = date;
 
-  const onFinish = (value: object) => {
-    const file = fileList[0].originFileObj;
-    console.log(value, file);
+    try {
+      const response = await addBooks(value);
+      dispatch(isLoading(false));
+
+      if (response.data.acknowledged == true) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Succesfully Added a Book",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        handleReset();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Something went wrong",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      handleReset();
+    }
   };
 
   return (
@@ -53,27 +67,13 @@ const AddBook = () => {
         <h1 className="text-2xl font-bold">Add New Book</h1>
         <br />
         <div className="border border-blue-400 p-10 shadow-lg shadow-blue-500/50  rounded">
-          <div className="">
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 1 ? null : uploadButton}
-            </Upload>
-            <Modal
-              open={previewOpen}
-              title={previewTitle}
-              footer={null}
-              onCancel={handleCancel}
-            >
-              <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal>
-          </div>
           <div>
-            <Form layout="vertical" colon={false} onFinish={onFinish}>
+            <Form
+              form={form}
+              layout="vertical"
+              colon={false}
+              onFinish={onFinish}
+            >
               <div className="flex justify-around g-10">
                 <Form.Item
                   label="Book Title"
@@ -100,21 +100,47 @@ const AddBook = () => {
                   rules={[{ required: true }]}
                   className="w-5/12"
                 >
-                  <Input size="large" placeholder="Book Genre" />
+                  <Select
+                    size="large"
+                    showSearch
+                    placeholder="Select Genre"
+                    optionFilterProp="children"
+                    allowClear
+                    filterOption={(input, option) =>
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={genre}
+                  />
                 </Form.Item>
 
-                <Form.Item label="Gift To" name="gift" className="w-5/12">
-                  <Input size="large" placeholder="Author Name" />
+                <Form.Item label="Image Link" name="image" className="w-5/12">
+                  <Input size="large" placeholder="Image Link" />
+                </Form.Item>
+              </div>
+              <div className="flex justify-center">
+                <Form.Item
+                  label="Publication Date"
+                  name="publicationDate"
+                  rules={[{ required: true }]}
+                  className="w-11/12"
+                >
+                  <DatePicker
+                    onChange={onChange}
+                    className="w-full"
+                    format="MM/DD/YYYY"
+                  />
                 </Form.Item>
               </div>
               <div className="flex justify-center">
                 <Form.Item
                   name="description"
                   label="Description"
-                  rules={[{ required: true, message: "Description" }]}
                   className="w-11/12"
                 >
-                  <Input.TextArea className="h-32" showCount maxLength={1000} />
+                  <Input.TextArea className="h-32" showCount maxLength={500} />
                 </Form.Item>
               </div>
 
@@ -123,7 +149,7 @@ const AddBook = () => {
                   className="bg-blue-500 border border-white hover:bg-white hover:border  font-bold border-0 text-white hover:text-white"
                   htmlType="submit"
                 >
-                  Add Book
+                  {loading ? "Adding.." : "     Add Book"}
                 </Button>
               </Form.Item>
             </Form>

@@ -1,18 +1,18 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface IFilterType {
-  year: number;
+  year: string;
   genre: string | null;
 }
 const initialState: IFilterType = {
-  year: 2023,
-  genre: null,
+  year: "",
+  genre: "",
 };
 
 export const filterSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    publicationYear: (state, action: PayloadAction<number>) => {
+    publicationYear: (state, action: PayloadAction<string>) => {
       state.year = action.payload;
     },
     changeGenre: (state, action: PayloadAction<string>) => {

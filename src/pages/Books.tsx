@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Cards from "../components/ui/card";
 import FilterAndSearch from "../components/ui/filterAndSearch";
 import style from "../pages-css/books.module.css";
 import { Link } from "react-router-dom";
+import { useGetBooksQuery } from "../redux/books/booksSlice";
+import Loader from "../components/ui/loader";
 
 const Books = () => {
+  const { data, isLoading } = useGetBooksQuery(undefined);
+
   return (
     <div className={style.container}>
       <div className="flex justify-between items-center">
@@ -17,9 +23,7 @@ const Books = () => {
         <FilterAndSearch />
 
         <hr />
-        <div>
-          <Cards />
-        </div>
+        <div>{isLoading ? <Loader /> : <Cards books={data?.data} />}</div>
       </div>
     </div>
   );

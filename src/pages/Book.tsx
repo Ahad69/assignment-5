@@ -1,66 +1,72 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import ReviewBox from "../components/ui/reviewBox";
 import Reviews from "../components/ui/reviews";
 import style from "../pages-css/bookDetails.module.css";
 import { Tag } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetBookByIdQuery } from "../redux/books/booksSlice";
+import Loader from "../components/ui/loader";
 
 const Book = () => {
+  const { id } = useParams();
+  console.log(id);
+
+  const { data: book, isLoading } = useGetBookByIdQuery(id);
+
   return (
     <div className={style.container}>
-      <div className={style.detailContainer}>
-        <img
-          className={style.detailImage}
-          src="https://ik.imagekit.io/dlyqigh4b/mael-balland-Wnti9H4PX6Y-unsplash_dDJJPk3G5.jpg?updatedAt=1689321980245"
-        />
-        <div className={style.detailContent}>
-          <h1>
-            <b>Title :</b> Books Title is Here
-          </h1>
-          <br />
-          <h1>
-            <b>Author :</b> Author Name is Here
-          </h1>{" "}
-          <br />
-          <h1>
-            <b>Genre :</b> Books Genre is Here
-          </h1>{" "}
-          <br />
-          <h1>
-            <b>Publication Date :</b> Publication Date is Here
-          </h1>{" "}
-          <br />
-          <h1>
-            <b>Description :</b> Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here Reviews Title is Here Reviews Title is Here
-            Reviews Title is Here
-          </h1>{" "}
-          <br />
-          <h1>
-            <b>Actions :</b>{" "}
-            <div>
-              {" "}
-              <Tag color="#87d068">
-                <Link to={"/edit-book"}>Edit</Link>
-              </Tag>
-              <Tag color="#f50">Delete</Tag>
+      {isLoading ? (
+        <Loader></Loader>
+      ) : (
+        <>
+          {" "}
+          <div className={style.detailContainer}>
+            <img className={style.detailImage} src={book?.image} />
+            <div className={style.detailContent}>
+              <h1>
+                <b>Title :</b> {book?.title}
+              </h1>
+              <br />
+              <h1>
+                <b>Author :</b> {book?.author}
+              </h1>{" "}
+              <br />
+              <h1>
+                <b>Genre :</b> {book?.genre?.toUpperCase()}
+              </h1>{" "}
+              <br />
+              <h1>
+                <b>Publication Date :</b> {book?.publicationDate}
+              </h1>{" "}
+              <br />
+              <h1>
+                <b>Description :</b> {book?.description.slice(0, 500)}
+              </h1>{" "}
+              <br />
+              <h1>
+                <b>Actions :</b>{" "}
+                <div>
+                  {" "}
+                  <Tag color="#87d068">
+                    <Link to={"/edit-book"}>Edit</Link>
+                  </Tag>
+                  <Tag color="#f50">Delete</Tag>
+                </div>
+              </h1>{" "}
             </div>
-          </h1>{" "}
-        </div>
-      </div>
-      <hr className="my-5" />
-      <div>
-        <ReviewBox />
-        <br />
-        <div>
-          <Reviews />
-        </div>
-      </div>
+          </div>
+          <hr className="my-5" />
+          <div>
+            <ReviewBox />
+            <br />
+            <div>
+              <Reviews />
+            </div>
+          </div>{" "}
+        </>
+      )}
     </div>
   );
 };

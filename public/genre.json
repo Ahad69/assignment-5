@@ -26,5 +26,9 @@
   {
     "value": "fantasy",
     "label": "Fantasy"
+  },
+  {
+    "value": "sci-fi",
+    "label": "Sci-FI"
   }
 ]
