@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import filterSlice from "./features/filterSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: { filter: filterSlice },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });
 

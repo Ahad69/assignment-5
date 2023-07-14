@@ -3,15 +3,26 @@
 import { Select, Input } from "antd";
 import genre from "../../../public/genre.json";
 import year from "../../../public/publicationYear.json";
+import { useAppDispatch } from "../../redux/hook";
+import { changeGenre, publicationYear } from "../../redux/features/filterSlice";
 const { Search } = Input;
 
 const FilterAndSearch = () => {
+  const dispatch = useAppDispatch();
   const onChangeGenre = (value: string) => {
-    console.log(`selected ${value}`);
+    if (value == undefined) {
+      dispatch(changeGenre(""));
+    } else {
+      dispatch(changeGenre(value));
+    }
   };
 
-  const onChangeYear = (value: string) => {
-    console.log(`selected ${value}`);
+  const onChangeYear = (value: number) => {
+    if (value == undefined) {
+      dispatch(publicationYear(2023));
+    } else {
+      dispatch(publicationYear(value));
+    }
   };
 
   const onSearch = (value: string) => console.log(value);
