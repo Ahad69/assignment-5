@@ -6,17 +6,20 @@ import style from "../pages-css/books.module.css";
 import { Link } from "react-router-dom";
 import { useGetBooksQuery } from "../redux/books/booksSlice";
 import Loader from "../components/ui/loader";
+import { useAppSelector } from "../redux/hook";
 
 const Books = () => {
   const { data, isLoading } = useGetBooksQuery(undefined);
-
+  const { user } = useAppSelector((state) => state.users);
   return (
     <div className={style.container}>
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Book List</h1>
-        <button className="bg-blue-400 px-3 rounded text-white">
-          <Link to="/add-new-book">Add New</Link>
-        </button>
+        {user?.email && (
+          <button className="bg-blue-400 px-3 rounded text-white">
+            <Link to="/add-new-book">Add New</Link>
+          </button>
+        )}
       </div>
       <br />
       <div>

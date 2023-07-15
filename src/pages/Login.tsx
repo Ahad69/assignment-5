@@ -7,23 +7,23 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ICredential, loginUser } from "../redux/users/userSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hook";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
 
-  const { user, isLoading } = useAppSelector((state) => state.users);
+  const { user } = useAppSelector((state) => state.users);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user.email && !isLoading) {
+    if (user.email) {
       navigate("/");
     }
-  }, [user.email, isLoading]);
+  }, [user.email]);
 
   const onFinish = (values: ICredential) => {
     const { email, password } = values;

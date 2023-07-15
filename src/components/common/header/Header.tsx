@@ -1,11 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Link } from "react-router-dom";
 import style from "./header.module.css";
 import { TfiUser } from "react-icons/tfi";
-import { useAppSelector } from "../../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../lib/firebase";
+import { setUser } from "../../../redux/users/userSlice";
 
 const Header = () => {
   const { user } = useAppSelector((state) => state.users);
-  console.log(user);
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      dispatch(setUser(null));
+    });
+  };
+
   return (
     <div className={style.container}>
       <div className={`navbar p-0 z-50  ${style.nav}`}>
@@ -49,7 +60,15 @@ const Header = () => {
                   </li>
                 </>
               ) : (
-                ""
+                <>
+                  {" "}
+                  <li>
+                    <Link to="/add-new-book">Add New Book</Link>
+                  </li>
+                  <li onClick={handleLogout}>
+                    <Link to="/login">Log Out</Link>
+                  </li>
+                </>
               )}
             </ul>
           </div>
@@ -77,7 +96,15 @@ const Header = () => {
                 </li>
               </>
             ) : (
-              ""
+              <>
+                {" "}
+                <li>
+                  <Link to="/add-new-book">Add New Book</Link>
+                </li>
+                <li onClick={handleLogout}>
+                  <Link to="/login">Log Out</Link>
+                </li>
+              </>
             )}
           </ul>
         </div>
@@ -88,23 +115,6 @@ const Header = () => {
                 <TfiUser className="text-2xl" />
               </div>
             </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>

@@ -57,8 +57,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setUser: (state, action) => {
+      state.user.email = action.payload;
+    },
     addUserInfo: (state, action) => {
-      console.log(action.payload);
       state.user.firstName = action.payload.firstName;
       state.user.lastName = action.payload.lastName;
     },
@@ -98,6 +100,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { addUserInfo } = userSlice.actions;
+export const { addUserInfo, setUser } = userSlice.actions;
 
 export default userSlice.reducer;

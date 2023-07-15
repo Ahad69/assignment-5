@@ -8,11 +8,12 @@ import { Tag } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { useGetBookByIdQuery } from "../redux/books/booksSlice";
 import Loader from "../components/ui/loader";
+import { useAppSelector } from "../redux/hook";
 
 const Book = () => {
   const { id } = useParams();
   const { data: book, isLoading } = useGetBookByIdQuery(id);
-
+  const { user } = useAppSelector((state) => state.users);
   return (
     <div className={style.container}>
       {isLoading ? (
@@ -48,7 +49,7 @@ const Book = () => {
                 <div>
                   {" "}
                   <Tag color="#87d068">
-                    <Link to={"/edit-book"}>Edit</Link>
+                    <Link to={`/edit-book/${id as string}`}>Edit</Link>
                   </Tag>
                   <Tag color="#f50">Delete</Tag>
                 </div>
@@ -57,7 +58,8 @@ const Book = () => {
           </div>
           <hr className="my-5" />
           <div>
-            <ReviewBox id={id} />
+            {user?.email && <ReviewBox id={id} />}
+
             <br />
             <div>
               <Reviews id={id} />

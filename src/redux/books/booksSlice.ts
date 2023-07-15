@@ -10,15 +10,30 @@ const bookApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["books"],
     }),
     getBooks: builder.query({
       query: () => `/books`,
+      providesTags: ["books"],
     }),
     getBookById: builder.query({
       query: (id) => `/book/${id}`,
+      providesTags: ["books"],
+    }),
+    patchBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/book/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["books"],
     }),
   }),
 });
 
-export const { useAddBooksMutation, useGetBooksQuery, useGetBookByIdQuery } =
-  bookApi;
+export const {
+  useAddBooksMutation,
+  useGetBooksQuery,
+  useGetBookByIdQuery,
+  usePatchBookMutation,
+} = bookApi;
