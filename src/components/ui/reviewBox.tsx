@@ -15,7 +15,7 @@ const ReviewBox = ({ id }: IDType) => {
 
     const opions = {
       id: id,
-      data: { review: { name: "Ahad Hossain", text: value } },
+      data: { review: { name: "Mr. User", text: value } },
     };
     postReview(opions);
     setValue("");
