@@ -14,20 +14,26 @@ interface IReview {
 
 const Reviews = ({ id }: IDType) => {
   const { data, isLoading } = useGetReviewsQuery(id);
-  console.log(data, isLoading);
+
   return (
     <>
-      {data.reviews.map((a: IReview) => (
-        <div className="flex bg-gray-100 p-1 m-1 items-center">
-          <div className="bg-gray-300 w-12 h-12 flex justify-center items-center rounded-full mr-4">
-            <TfiUser className="text-3xl" />
-          </div>
-          <div className="w-full">
-            <b>{a?.name}</b>
-            <p>{a?.text}</p>
-          </div>
-        </div>
-      ))}
+      {isLoading ? (
+        "loading"
+      ) : (
+        <>
+          {data?.reviews?.map((a: IReview) => (
+            <div className="flex bg-gray-100 p-1 m-1 items-center">
+              <div className="bg-gray-300 w-12 h-12 flex justify-center items-center rounded-full mr-4">
+                <TfiUser className="text-3xl" />
+              </div>
+              <div className="w-full">
+                <b>{a?.name}</b>
+                <p>{a?.text}</p>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </>
   );
 };

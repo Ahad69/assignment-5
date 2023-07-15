@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   LockOutlined,
   UserOutlined,
@@ -6,11 +8,28 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { addUserInfo, createUser } from "../redux/users/userSlice";
+import { useEffect } from "react";
 
 const SignUp = () => {
+  const dispatch = useAppDispatch();
+
+  const { user, isLoading } = useAppSelector((state) => state.users);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+  }, [user.email, isLoading]);
+
   const onFinish = (values: any) => {
-    console.log("Finish:", values);
+    const { email, password, ...info } = values;
+    dispatch(createUser({ email, password }));
+    dispatch(addUserInfo(info));
+    console.log(info);
   };
   return (
     <div>
@@ -18,7 +37,7 @@ const SignUp = () => {
       <div className="flex justify-center items-center mt-24">
         <div className="w-4/12 border border-blue-400 p-10 rounded shadow-lg shadow-blue-500/50">
           <h1 className="my-5 text-center text-2xl font-bold text-blue-400">
-            Books Center
+            <Link to={"/"}>Books Center</Link>
           </h1>
           <Form
             name="normal_login"
