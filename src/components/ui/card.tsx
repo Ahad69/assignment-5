@@ -11,7 +11,6 @@ interface CardsProps {
 }
 
 const Cards = ({ books }: CardsProps) => {
-  console.log(books);
   const { genre, year } = useAppSelector((state) => state.filter);
 
   let productsData;

@@ -11,8 +11,6 @@ import Loader from "../components/ui/loader";
 
 const Book = () => {
   const { id } = useParams();
-  console.log(id);
-
   const { data: book, isLoading } = useGetBookByIdQuery(id);
 
   return (
@@ -59,7 +57,7 @@ const Book = () => {
           </div>
           <hr className="my-5" />
           <div>
-            <ReviewBox />
+            <ReviewBox id={id} />
             <br />
             <div>
               <Reviews />

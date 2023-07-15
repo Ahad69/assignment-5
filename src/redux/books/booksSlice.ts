@@ -10,7 +10,6 @@ const bookApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["review"],
     }),
     getBooks: builder.query({
       query: () => `/books`,
