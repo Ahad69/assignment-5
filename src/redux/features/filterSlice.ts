@@ -1,8 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-interface IFilterType {
-  year: string;
-  genre: string | null;
-}
+import { IFilterType } from "../../Interfaces/globalTypes";
+
 const initialState: IFilterType = {
   year: "",
   genre: "",

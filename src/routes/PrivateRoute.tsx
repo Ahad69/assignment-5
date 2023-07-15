@@ -2,10 +2,7 @@ import { ReactNode } from "react";
 import { useAppSelector } from "../redux/hook";
 import { Navigate, useLocation } from "react-router-dom";
 import Loader from "../components/ui/loader";
-
-interface IProps {
-  children: ReactNode;
-}
+import { IProps } from "../Interfaces/globalTypes";
 
 export default function PrivateRoute({ children }: IProps) {
   const { user, isLoading } = useAppSelector((state) => state.users);

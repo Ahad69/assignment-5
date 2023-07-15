@@ -4,10 +4,7 @@ import { Input } from "antd";
 const { TextArea } = Input;
 import { BsSend } from "react-icons/bs";
 import { usePostReviewMutation } from "../../redux/books/reviewSlice";
-
-interface IDType {
-  id: string | undefined;
-}
+import { IDType } from "../../Interfaces/globalTypes";
 
 const ReviewBox = ({ id }: IDType) => {
   const [value, setValue] = useState("");

@@ -3,14 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { TfiUser } from "react-icons/tfi";
 import { useGetReviewsQuery } from "../../redux/books/reviewSlice";
-
-interface IDType {
-  id: string | undefined;
-}
-interface IReview {
-  name: string | undefined;
-  text: string | undefined;
-}
+import { IDType, IReview } from "../../Interfaces/globalTypes";
 
 const Reviews = ({ id }: IDType) => {
   const { data, isLoading } = useGetReviewsQuery(id);

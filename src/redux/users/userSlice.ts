@@ -9,17 +9,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { ICredential, IUserState } from "../../Interfaces/globalTypes";
 
-interface IUserState {
-  user: {
-    email: null | string;
-    firstName: string | undefined;
-    lastName: string | undefined;
-  };
-  isLoading: boolean;
-  isError: boolean;
-  error: null | string;
-}
 const initialState: IUserState = {
   user: {
     email: null,
@@ -30,11 +21,6 @@ const initialState: IUserState = {
   isError: false,
   error: null,
 };
-
-export interface ICredential {
-  email: string;
-  password: string;
-}
 
 export const createUser = createAsyncThunk(
   "user/createUser",
@@ -48,7 +34,6 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password }: ICredential) => {
     const data = await signInWithEmailAndPassword(auth, email, password);
-
     return data.user.email;
   }
 );

@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 import type { DatePickerProps } from "antd";
 import { useState } from "react";
 import genre from "../../public/genre.json";
-import { MyBook } from "../Interfaces/global";
+import { MyBook } from "../Interfaces/globalTypes";
 import { useParams } from "react-router-dom";
 import Loader from "../components/ui/loader";
 

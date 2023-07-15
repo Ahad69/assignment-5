@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Card } from "antd";
 import style from "./uiCss/card.module.css";
-import { MyBook } from "../../Interfaces/global";
+import { CardsProps } from "../../Interfaces/globalTypes";
 import { useAppSelector } from "../../redux/hook";
 import { Link } from "react-router-dom";
 const { Meta } = Card;
-
-interface CardsProps {
-  books: MyBook[];
-}
 
 const Cards = ({ books }: CardsProps) => {
   const { genre, year } = useAppSelector((state) => state.filter);

@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import type { DatePickerProps } from "antd";
 import { useState } from "react";
 import genre from "../../public/genre.json";
-import { MyBook } from "../Interfaces/global";
+import { MyBook } from "../Interfaces/globalTypes";
 
 const AddBook = () => {
   const [form] = Form.useForm();
@@ -21,7 +21,6 @@ const AddBook = () => {
   const { loading } = useAppSelector((state) => state.commonOptions);
 
   const handleReset = () => {
-    console.log("ads");
     form.resetFields();
   };
 

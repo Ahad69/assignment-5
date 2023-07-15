@@ -7,11 +7,12 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ICredential, loginUser } from "../redux/users/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../redux/users/userSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hook";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { ICredential } from "../Interfaces/globalTypes";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,10 @@ const Login = () => {
   }, [user.email]);
 
   const onFinish = (values: ICredential) => {
-    const { email, password } = values;
+    const { email, password, ...info } = values;
     dispatch(loginUser({ email, password }));
   };
+
   return (
     <div className="flex justify-center items-center mt-24">
       <div className="w-4/12 border border-blue-400 p-10 rounded shadow-lg shadow-blue-500/50">

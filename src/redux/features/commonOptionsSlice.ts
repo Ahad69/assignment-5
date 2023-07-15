@@ -1,9 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-interface IFilterType {
-  loading: boolean;
-  isError: boolean;
-}
-const initialState: IFilterType = {
+import { ILoadAndErrorType } from "../../Interfaces/globalTypes";
+
+const initialState: ILoadAndErrorType = {
   loading: false,
   isError: false,
 };
