@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   LockOutlined,
   UserOutlined,
@@ -5,11 +7,27 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ICredential, loginUser } from "../redux/users/userSlice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../redux/hook";
+import { useEffect } from "react";
 
 const Login = () => {
-  const onFinish = (values: any) => {
-    console.log("Finish:", values);
+  const dispatch = useDispatch();
+
+  const { user, isLoading } = useAppSelector((state) => state.users);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+  }, [user.email, isLoading]);
+
+  const onFinish = (values: ICredential) => {
+    const { email, password } = values;
+    dispatch(loginUser({ email, password }));
   };
   return (
     <div className="flex justify-center items-center mt-24">

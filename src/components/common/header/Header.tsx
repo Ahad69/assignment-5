@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import style from "./header.module.css";
 import { TfiUser } from "react-icons/tfi";
+import { useAppSelector } from "../../../redux/hook";
 
 const Header = () => {
+  const { user } = useAppSelector((state) => state.users);
+  console.log(user);
   return (
     <div className={style.container}>
       <div className={`navbar p-0 z-50  ${style.nav}`}>
@@ -35,12 +38,19 @@ const Header = () => {
               <li>
                 <Link to="/books">All Books</Link>
               </li>
-              <li>
-                <Link to="/login">Sign In</Link>
-              </li>
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
+              {!user?.email ? (
+                <>
+                  {" "}
+                  <li>
+                    <Link to="/login">Sign In</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                </>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
           <Link to={"/"} className="text-2xl font-bold text-cyan-600">
@@ -56,12 +66,19 @@ const Header = () => {
             <li>
               <Link to="/books">All Books</Link>
             </li>
-            <li>
-              <Link to="/login">Sign In</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
+            {!user?.email ? (
+              <>
+                {" "}
+                <li>
+                  <Link to="/login">Sign In</Link>
+                </li>
+                <li>
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+              </>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
         <div className="navbar-end">
