@@ -12,7 +12,11 @@ const reviewSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["review"],
     }),
+    getReviews: builder.query({
+      query: (id) => `reviews/${id}`,
+      providesTags: ["review"],
+    }),
   }),
 });
 
-export const { usePostReviewMutation } = reviewSlice;
+export const { usePostReviewMutation, useGetReviewsQuery } = reviewSlice;

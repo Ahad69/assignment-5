@@ -60,7 +60,7 @@ const Book = () => {
             <ReviewBox id={id} />
             <br />
             <div>
-              <Reviews />
+              <Reviews id={id} />
             </div>
           </div>{" "}
         </>

@@ -18,7 +18,7 @@ const ReviewBox = ({ id }: IDType) => {
 
     const opions = {
       id: id,
-      data: { review: value },
+      data: { review: { name: "Ahad Hossain", text: value } },
     };
     postReview(opions);
     setValue("");
@@ -29,8 +29,6 @@ const ReviewBox = ({ id }: IDType) => {
   ) => {
     setValue(e.target.value);
   };
-
-  console.log(isLoading);
 
   return (
     <div>
