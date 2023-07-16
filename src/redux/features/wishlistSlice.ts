@@ -14,10 +14,21 @@ const wishListSlice = createSlice({
   initialState,
   reducers: {
     addToWish: (state, action: PayloadAction<MyBook>) => {
-      state.wishlist.push({ ...action.payload });
+      const isExist = state.wishlist.find((a) => a._id == action.payload._id);
+      if (isExist) {
+        console.log(isExist);
+        return;
+      } else {
+        state.wishlist.push({ ...action.payload });
+      }
+    },
+    removeFromWishList: (state, action: PayloadAction<MyBook>) => {
+      state.wishlist = state.wishlist.filter(
+        (a) => a._id !== action.payload._id
+      );
     },
   },
 });
 
-export const { addToWish } = wishListSlice.actions;
+export const { addToWish, removeFromWishList } = wishListSlice.actions;
 export default wishListSlice.reducer;

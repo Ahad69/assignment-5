@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Link } from "react-router-dom";
@@ -11,6 +12,7 @@ import { setUser } from "../../../redux/users/userSlice";
 const Header = () => {
   const { user } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       dispatch(setUser(null));
@@ -65,6 +67,9 @@ const Header = () => {
                   <li>
                     <Link to="/add-new-book">Add New Book</Link>
                   </li>
+                  <li>
+                    <Link to="/wishlist">Wishlist</Link>
+                  </li>
                   <li onClick={handleLogout}>
                     <Link to="/login">Log Out</Link>
                   </li>
@@ -100,6 +105,9 @@ const Header = () => {
                 {" "}
                 <li>
                   <Link to="/add-new-book">Add New Book</Link>
+                </li>
+                <li>
+                  <Link to="/wishlist">Wishlist</Link>
                 </li>
                 <li onClick={handleLogout}>
                   <Link to="/login">Log Out</Link>

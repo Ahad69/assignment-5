@@ -6,7 +6,7 @@
 import ReviewBox from "../components/ui/reviewBox";
 import Reviews from "../components/ui/reviews";
 import style from "../pages-css/bookDetails.module.css";
-import { Tag } from "antd";
+import { Tag, message } from "antd";
 import { Link, useParams } from "react-router-dom";
 import {
   useDeleteBookMutation,
@@ -15,8 +15,8 @@ import {
 import Loader from "../components/ui/loader";
 import { useAppSelector } from "../redux/hook";
 import Swal from "sweetalert2";
-import { AiOutlineHeart } from "react-icons/ai";
-import { addToWish } from "../redux/features/wishlistSlice";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { addToWish, removeFromWishList } from "../redux/features/wishlistSlice";
 import { useDispatch } from "react-redux";
 import { MyBook } from "../Interfaces/globalTypes";
 
@@ -26,6 +26,7 @@ const Book = () => {
   const dispatch = useDispatch();
   const { user } = useAppSelector((state) => state.users);
   const [deleteBook] = useDeleteBookMutation();
+
   const handleDelete = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -43,8 +44,22 @@ const Book = () => {
     });
   };
 
+  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const isWished = wishlist.find((a) => a._id === id);
+
   const handleAddToCart = (book: MyBook) => {
     dispatch(addToWish(book));
+    message.open({
+      type: "success",
+      content: "Added to Wishlist",
+    });
+  };
+  const handleRemoveFromCart = (book: MyBook) => {
+    dispatch(removeFromWishList(book));
+    message.open({
+      type: "error",
+      content: "Removed From Wishlist",
+    });
   };
 
   return (
@@ -99,10 +114,17 @@ const Book = () => {
                       Delete
                     </Tag>
 
-                    <AiOutlineHeart
-                      onClick={() => handleAddToCart(book)}
-                      className="text-xl"
-                    />
+                    {isWished == undefined ? (
+                      <AiOutlineHeart
+                        onClick={() => handleAddToCart(book)}
+                        className="text-2xl text-red-500 cursor-pointer"
+                      />
+                    ) : (
+                      <AiFillHeart
+                        onClick={() => handleRemoveFromCart(book)}
+                        className="text-2xl text-red-500 cursor-pointer"
+                      />
+                    )}
                   </div>
                 </div>
               </div>

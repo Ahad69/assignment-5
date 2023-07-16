@@ -1,0 +1,9 @@
+.container {
+  width: 1280px;
+  margin: 50px auto;
+}
+.wishlistContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px;
+}
