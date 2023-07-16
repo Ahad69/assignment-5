@@ -10,7 +10,6 @@ const Cards = ({ books }: CardsProps) => {
   const { genre, year } = useAppSelector((state) => state.filter);
 
   let productsData;
-
   if (genre && year) {
     productsData = books.filter(
       (a) => a.genre == genre && a.publicationDate.split("/")[2] == year

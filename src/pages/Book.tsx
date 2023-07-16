@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -14,11 +15,15 @@ import {
 import Loader from "../components/ui/loader";
 import { useAppSelector } from "../redux/hook";
 import Swal from "sweetalert2";
+import { AiOutlineHeart } from "react-icons/ai";
+import { addToWish } from "../redux/features/wishlistSlice";
+import { useDispatch } from "react-redux";
+import { MyBook } from "../Interfaces/globalTypes";
 
 const Book = () => {
   const { id } = useParams();
   const { data: book, isLoading } = useGetBookByIdQuery(id);
-
+  const dispatch = useDispatch();
   const { user } = useAppSelector((state) => state.users);
   const [deleteBook] = useDeleteBookMutation();
   const handleDelete = (id: string) => {
@@ -36,6 +41,10 @@ const Book = () => {
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });
+  };
+
+  const handleAddToCart = (book: MyBook) => {
+    dispatch(addToWish(book));
   };
 
   return (
@@ -73,27 +82,28 @@ const Book = () => {
                     <b>Description :</b> {book?.description?.slice(0, 500)}
                   </h1>{" "}
                   <br />
-                  <h1>
-                    <b>Actions :</b>{" "}
-                    <div>
-                      {" "}
-                      <Tag color="#87d068">
-                        <Link
-                          className="cursor-pointer"
-                          to={`/edit-book/${id as string}`}
-                        >
-                          Edit
-                        </Link>
-                      </Tag>
-                      <Tag
+                  <div className="flex items-center">
+                    <Tag color="#87d068">
+                      <Link
                         className="cursor-pointer"
-                        onClick={() => handleDelete(id as string)}
-                        color="#f50"
+                        to={`/edit-book/${id as string}`}
                       >
-                        Delete
-                      </Tag>
-                    </div>
-                  </h1>{" "}
+                        Edit
+                      </Link>
+                    </Tag>
+                    <Tag
+                      className="cursor-pointer"
+                      onClick={() => handleDelete(id as string)}
+                      color="#f50"
+                    >
+                      Delete
+                    </Tag>
+
+                    <AiOutlineHeart
+                      onClick={() => handleAddToCart(book)}
+                      className="text-xl"
+                    />
+                  </div>
                 </div>
               </div>
               <hr className="my-5" />
