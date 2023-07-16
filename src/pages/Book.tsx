@@ -23,7 +23,10 @@ import {
   MdOutlinePlaylistAdd,
   MdOutlinePlaylistAddCheck,
 } from "react-icons/md";
-import { addToReadList } from "../redux/features/myReadingSlice";
+import {
+  addToReadList,
+  removeFromMyReadingList,
+} from "../redux/features/myReadingSlice";
 
 const Book = () => {
   const { id } = useParams();
@@ -74,7 +77,15 @@ const Book = () => {
     dispatch(addToReadList(book));
     message.open({
       type: "success",
-      content: "Added to Wishlist",
+      content: "Added to Reading List",
+    });
+  };
+
+  const handleRemoveFromReadingList = (book: MyReadingBook) => {
+    dispatch(removeFromMyReadingList(book));
+    message.open({
+      type: "error",
+      content: "Removed From Reading List",
     });
   };
 
@@ -159,7 +170,7 @@ const Book = () => {
                     {isReadAdd == undefined ? (
                       <Tooltip
                         placement="topRight"
-                        title={"Add To Readinglist"}
+                        title={"Add To Reading List"}
                         arrow={true}
                         color={"blue"}
                       >
@@ -171,11 +182,14 @@ const Book = () => {
                     ) : (
                       <Tooltip
                         placement="topRight"
-                        title={"Remove from Readinglist"}
+                        title={"Remove from Reading List"}
                         arrow={true}
                         color={"blue"}
                       >
-                        <MdOutlinePlaylistAddCheck className="text-3xl text-red-500 cursor-pointer mx-3" />
+                        <MdOutlinePlaylistAddCheck
+                          onClick={() => handleRemoveFromReadingList(book)}
+                          className="text-3xl text-red-500 cursor-pointer mx-3"
+                        />
                       </Tooltip>
                     )}
                   </div>

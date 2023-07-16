@@ -70,6 +70,9 @@ const Header = () => {
                   <li>
                     <Link to="/wishlist">Wishlist</Link>
                   </li>
+                  <li>
+                    <Link to="/my-reading-list">Reading List</Link>
+                  </li>
                   <li onClick={handleLogout}>
                     <Link to="/login">Log Out</Link>
                   </li>
@@ -108,6 +111,9 @@ const Header = () => {
                 </li>
                 <li>
                   <Link to="/wishlist">Wishlist</Link>
+                </li>
+                <li>
+                  <Link to="/my-reading-list">Reading List</Link>
                 </li>
                 <li onClick={handleLogout}>
                   <Link to="/login">Log Out</Link>
