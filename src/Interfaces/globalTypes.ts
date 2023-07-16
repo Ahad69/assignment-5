@@ -52,3 +52,21 @@ export interface ICredential {
   email: string;
   password: string;
 }
+
+export interface IWishType {
+  wishlist: MyBook[];
+}
+export interface IReadingType {
+  myReadingsList: MyReadingBook[];
+}
+
+export interface MyReadingBook {
+  _id?: string;
+  author: string;
+  description: string;
+  genre: string;
+  image: string;
+  title: string;
+  publicationDate: string;
+  status?: "to-read" | "reading" | "finished";
+}

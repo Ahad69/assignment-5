@@ -1,9 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MyBook } from "../../Interfaces/globalTypes";
-
-export interface IWishType {
-  wishlist: MyBook[];
-}
+import { IWishType, MyBook } from "../../Interfaces/globalTypes";
 
 const initialState: IWishType = {
   wishlist: [],

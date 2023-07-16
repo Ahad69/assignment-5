@@ -6,7 +6,7 @@
 import ReviewBox from "../components/ui/reviewBox";
 import Reviews from "../components/ui/reviews";
 import style from "../pages-css/bookDetails.module.css";
-import { Tag, message } from "antd";
+import { Tag, Tooltip, message } from "antd";
 import { Link, useParams } from "react-router-dom";
 import {
   useDeleteBookMutation,
@@ -18,7 +18,12 @@ import Swal from "sweetalert2";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { addToWish, removeFromWishList } from "../redux/features/wishlistSlice";
 import { useDispatch } from "react-redux";
-import { MyBook } from "../Interfaces/globalTypes";
+import { MyBook, MyReadingBook } from "../Interfaces/globalTypes";
+import {
+  MdOutlinePlaylistAdd,
+  MdOutlinePlaylistAddCheck,
+} from "react-icons/md";
+import { addToReadList } from "../redux/features/myReadingSlice";
 
 const Book = () => {
   const { id } = useParams();
@@ -45,20 +50,31 @@ const Book = () => {
   };
 
   const { wishlist } = useAppSelector((state) => state.wishlist);
-  const isWished = wishlist.find((a) => a._id === id);
+  const { myReadingsList } = useAppSelector((state) => state.readinglist);
 
-  const handleAddToCart = (book: MyBook) => {
+  const isWished = wishlist.find((a) => a._id === id);
+  const isReadAdd = myReadingsList.find((a) => a._id === id);
+
+  const handleAddToWish = (book: MyBook) => {
     dispatch(addToWish(book));
     message.open({
       type: "success",
       content: "Added to Wishlist",
     });
   };
-  const handleRemoveFromCart = (book: MyBook) => {
+  const handleRemoveFromWish = (book: MyBook) => {
     dispatch(removeFromWishList(book));
     message.open({
       type: "error",
       content: "Removed From Wishlist",
+    });
+  };
+
+  const handleAddToReadingList = (book: MyReadingBook) => {
+    dispatch(addToReadList(book));
+    message.open({
+      type: "success",
+      content: "Added to Wishlist",
     });
   };
 
@@ -100,14 +116,14 @@ const Book = () => {
                   <div className="flex items-center">
                     <Tag color="#87d068">
                       <Link
-                        className="cursor-pointer"
+                        className="cursor-pointer px-2"
                         to={`/edit-book/${id as string}`}
                       >
                         Edit
                       </Link>
                     </Tag>
                     <Tag
-                      className="cursor-pointer"
+                      className="cursor-pointer px-2"
                       onClick={() => handleDelete(id as string)}
                       color="#f50"
                     >
@@ -115,15 +131,52 @@ const Book = () => {
                     </Tag>
 
                     {isWished == undefined ? (
-                      <AiOutlineHeart
-                        onClick={() => handleAddToCart(book)}
-                        className="text-2xl text-red-500 cursor-pointer"
-                      />
+                      <Tooltip
+                        placement="topRight"
+                        title={"Add To Wishlist"}
+                        arrow={true}
+                        color={"blue"}
+                      >
+                        <AiOutlineHeart
+                          onClick={() => handleAddToWish(book)}
+                          className="text-2xl text-red-500 cursor-pointer"
+                        />
+                      </Tooltip>
                     ) : (
-                      <AiFillHeart
-                        onClick={() => handleRemoveFromCart(book)}
-                        className="text-2xl text-red-500 cursor-pointer"
-                      />
+                      <Tooltip
+                        placement="topRight"
+                        title={"Remove from Wishlist"}
+                        arrow={true}
+                        color={"blue"}
+                      >
+                        <AiFillHeart
+                          onClick={() => handleRemoveFromWish(book)}
+                          className="text-2xl text-red-500 cursor-pointer"
+                        />
+                      </Tooltip>
+                    )}
+
+                    {isReadAdd == undefined ? (
+                      <Tooltip
+                        placement="topRight"
+                        title={"Add To Readinglist"}
+                        arrow={true}
+                        color={"blue"}
+                      >
+                        <MdOutlinePlaylistAdd
+                          onClick={() => handleAddToReadingList(book)}
+                          className="text-3xl text-gray-500 cursor-pointer mx-3"
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip
+                        placement="topRight"
+                        title={"Remove from Readinglist"}
+                        arrow={true}
+                        color={"blue"}
+                      >
+                        <MdOutlinePlaylistAddCheck className="text-3xl text-red-500 cursor-pointer mx-3" />
+                      </Tooltip>
                     )}
                   </div>
                 </div>
