@@ -4,6 +4,7 @@ import { IFilterType } from "../../Interfaces/globalTypes";
 const initialState: IFilterType = {
   year: "",
   genre: "",
+  searchText: "",
 };
 
 export const filterSlice = createSlice({
@@ -16,8 +17,12 @@ export const filterSlice = createSlice({
     changeGenre: (state, action: PayloadAction<string>) => {
       state.genre = action.payload;
     },
+    addSearchText: (state, action: PayloadAction<string>) => {
+      state.searchText = action.payload;
+    },
   },
 });
 
-export const { publicationYear, changeGenre } = filterSlice.actions;
+export const { publicationYear, changeGenre, addSearchText } =
+  filterSlice.actions;
 export default filterSlice.reducer;

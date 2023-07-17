@@ -31,6 +31,7 @@ export interface ILoadAndErrorType {
 export interface IFilterType {
   year: string;
   genre: string | null;
+  searchText: string;
 }
 
 export interface IUserState {

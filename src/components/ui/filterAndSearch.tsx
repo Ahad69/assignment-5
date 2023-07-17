@@ -4,7 +4,11 @@
 import { Select, Input } from "antd";
 import genre from "../../../public/genre.json";
 import { useAppDispatch } from "../../redux/hook";
-import { changeGenre, publicationYear } from "../../redux/features/filterSlice";
+import {
+  addSearchText,
+  changeGenre,
+  publicationYear,
+} from "../../redux/features/filterSlice";
 const { Search } = Input;
 
 const currentYear = new Date().getFullYear();
@@ -32,7 +36,13 @@ const FilterAndSearch = () => {
     }
   };
 
-  const onSearch = (value: string) => console.log(value);
+  const onSearch = (value: string) => {
+    if (value == undefined) {
+      dispatch(addSearchText(""));
+    } else {
+      dispatch(addSearchText(value));
+    }
+  };
 
   return (
     <div className="flex justify-between items-center my-2">
@@ -65,6 +75,7 @@ const FilterAndSearch = () => {
       <Search
         className="w-96"
         placeholder="Search"
+        allowClear
         onSearch={onSearch}
         enterButton
       />
