@@ -16,8 +16,11 @@ const Cards = ({ books }: CardsProps) => {
     if (searchTerm === "") {
       return books;
     }
-    return books.filter((book) =>
-      book?.title?.toLowerCase().includes(searchTerm)
+    return books.filter(
+      (book) =>
+        book?.title?.toLowerCase().includes(searchTerm) ||
+        book?.author?.toLowerCase().includes(searchTerm) ||
+        book?.genre?.toLowerCase().includes(searchTerm)
     );
   };
 
